@@ -47,6 +47,15 @@ Student* insert(char num,char *name){
 }
 
 Student* remove(char num){
+	if(!pHeader){
+		return pHeader;
+	}
+	if(pHeader->next==NULL){
+		Student *ph=pHeader;
+		delete ph;
+		pHeader=NULL;
+		return pHeader;
+	}
 	for(Student* p=pHeader;p->next!=NULL;p=p->next){
 
 		if(pHeader->num==num){
@@ -100,6 +109,9 @@ int _tmain(int argc, _TCHAR* argv[])
 			scanf("%d",&iNum);
 			remove(iNum);
 			printf("\n");
+			if(pHeader==NULL){
+				printf("无节点信息！\n");
+			}
 			for(Student* p=pHeader;p!=NULL;p=p->next){
 				printf("%d %s\n",p->num,p->name);
 			}	

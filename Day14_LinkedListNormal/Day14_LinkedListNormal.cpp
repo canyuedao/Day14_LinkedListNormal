@@ -23,6 +23,9 @@ Student* insert(char num,char *name){
 	else{
 		for (Student* p=pHeader;p!=NULL;p=p->next)
 		{
+			if(p->num==num){
+				return pHeader;
+			}
 			if(pHeader->num>num){
 				Student *ph=pHeader;
 				pHeader=pStu;
@@ -37,7 +40,7 @@ Student* insert(char num,char *name){
 				pStu->next=p->next;
 				p->next=pStu;
 				return pHeader;
-			}			
+			}
 			
 		}
 		/*pHeader2->next=pStu;

@@ -79,24 +79,40 @@ Student* remove(char num){
 }
 
 Student* reverse(){
-	Student *pHeaderOld=pHeader;
-	for(Student *pH=pHeaderOld;pH->next!=NULL;pH=pH->next){
-		if(pH->next->next==NULL){
-			pHeader=pH->next;
-			pHeader->next=pH;
-			pH->next=NULL;
-			break;
-		}
+	//Student *pHeaderOld=pHeader;
+	//Student *pTmp;//指示位置的临时指针
+	Student *pNext=NULL;//保存每次循环初始时的pHeader指针
+	Student *pPre=NULL;//保存每次循环的上一次pHeader指针
+	while(pHeader!=NULL){
+		pNext=pHeader;//保存每次循环初始时的pHeader指针
+		pHeader=pHeader->next;//每次循环将头节点向后移
+		pNext->next=pPre;//将本次循环初始时的pHeader的next指向前，即上一次的pHeader指针
+		pPre=pNext;//保存每次循环的上一次pHeader指针
 	}
-	/*for(Student *pHO=pHeaderOld;pHO->next!=NULL;pHO=pHO->next){
-		for(Student *pHN=pHeader;pHN->next!=NULL;pHN=pHN->next){
-			if(pHO->next==pHN)
-		}
-	}*/
-	while(pHeaderOld->next!=NULL){
-		Student *pHO=pHeaderOld;
+	pHeader=pNext;
+	//第二次优化掉的代码
+	//for(Student *pH=pHeaderOld;pH->next!=NULL;pH=pH->next){
+	//	if(pH->next->next==NULL){
+	//		pHeader=pH->next;
+	//		pHeader->next=pH;
+	//		pH->next=NULL;
+	//		pTmp=pH;//修改
+	//		break;
+	//	}
+	//}
+	//while(pHeaderOld->next!=NULL){
+	//	for(Student *pHO=pHeaderOld;pHO->next!=NULL;pHO=pHO->next){
+	//		if(pHO->next==pTmp){
+	//			pTmp->next=pHO;
+	//			pTmp=pHO;
+	//			pHO->next=NULL;
+	//			break;
+	//		}
+	//	}
+		//第一次优化掉的代码
+		/*Student *pHO=pHeaderOld;
 		for(;pHO->next!=NULL;pHO=pHO->next){
-			if(pHO->next->next==NULL){
+			if(pHO->next->next==NULL){					
 				pHO->next=NULL;
 				break;
 			}
@@ -107,8 +123,10 @@ Student* reverse(){
 				pHN->next=pHO;
 				break;
 			}
-		}
-	}
+		}*/
+		//第一次优化结束
+	//}
+	//第二次优化结束
 	return pHeader;
 
 }
@@ -121,6 +139,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	insert(1,"小红");
 	insert(2,"小明");
 	insert(3,"小张");
+	insert(4,"小陈");
 	for(Student *p=pHeader;p!=NULL;p=p->next){
 		printf("%d %s\n",p->num,p->name);
 	}

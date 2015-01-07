@@ -1,5 +1,4 @@
 // Day14_LinkedListNormal.cpp : 定义控制台应用程序的入口点。
-//
 
 #include "stdafx.h"
 #include <string.h>
@@ -10,15 +9,13 @@ struct Student{
 	Student *next;
 };
 Student *pHeader=NULL;
-//Student *pHeader2=NULL;
 Student* insert(char num,char *name){
 	Student *pStu=new Student;
 	pStu->num=num;
 	strcpy(pStu->name,name);
 	pStu->next=NULL;
 	if(!pHeader){
-		pHeader=pStu;
-		//pHeader2=pHeader;		
+		pHeader=pStu;	
 	}
 	else{
 		for (Student* p=pHeader;p!=NULL;p=p->next)
@@ -40,11 +37,8 @@ Student* insert(char num,char *name){
 				pStu->next=p->next;
 				p->next=pStu;
 				return pHeader;
-			}
-			
+			}			
 		}
-		/*pHeader2->next=pStu;
-		pHeader2=pStu;		*/
 	}
 	return pHeader;
 }
@@ -83,16 +77,60 @@ Student* remove(char num){
 	}
 	return pHeader;
 }
+
+Student* reverse(){
+	Student *pHeaderOld=pHeader;
+	for(Student *pH=pHeaderOld;pH->next!=NULL;pH=pH->next){
+		if(pH->next->next==NULL){
+			pHeader=pH->next;
+			pHeader->next=pH;
+			pH->next=NULL;
+			break;
+		}
+	}
+	/*for(Student *pHO=pHeaderOld;pHO->next!=NULL;pHO=pHO->next){
+		for(Student *pHN=pHeader;pHN->next!=NULL;pHN=pHN->next){
+			if(pHO->next==pHN)
+		}
+	}*/
+	while(pHeaderOld->next!=NULL){
+		Student *pHO=pHeaderOld;
+		for(;pHO->next!=NULL;pHO=pHO->next){
+			if(pHO->next->next==NULL){
+				pHO->next=NULL;
+				break;
+			}
+		}
+		Student *pHN=pHeader;
+		for(;pHN!=NULL;pHN=pHN->next){
+			if(pHN->next==NULL){
+				pHN->next=pHO;
+				break;
+			}
+		}
+	}
+	return pHeader;
+
+}
 int _tmain(int argc, _TCHAR* argv[])
 {
-	/*insert(1,"小红");
-	insert(3,"小张");
-	insert(2,"小明");
-	insert(15,"小陈");
-	insert(10,"陈新");*/
 	char cOperate=0;
 	int iNum;
 	char cName[20];
+	//反转测试
+	insert(1,"小红");
+	insert(2,"小明");
+	insert(3,"小张");
+	for(Student *p=pHeader;p!=NULL;p=p->next){
+		printf("%d %s\n",p->num,p->name);
+	}
+	reverse();
+	printf("反转后的节点信息为：\n");
+	for(Student *p=pHeader;p!=NULL;p=p->next){
+		printf("%d %s\n",p->num,p->name);
+	}
+	//测试结束
+	//添加删除节点
 	while(1){
 		printf("添加节点请按A，删除节点请按D\n");
 		scanf(" %c",&cOperate);		
@@ -105,8 +143,6 @@ int _tmain(int argc, _TCHAR* argv[])
 				printf("%d %s\n",p->num,p->name);
 			}
 		}		
-		//printf("\n");
-		//remove(3);
 		else if(cOperate=='D'||cOperate=='d'){
 			printf("请输入要删除的学生学号\n");
 			scanf("%d",&iNum);
@@ -122,8 +158,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		else{
 			printf("请输入正确的操作命令\n");
 		}
-	}
-	
+	}	
 	return 0;
 }
 
